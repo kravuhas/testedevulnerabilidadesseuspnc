@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FashionWave - Loja de Roupas</title>
+<style>
+  /* Fonte Google Poppins */
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap');
+
+  /* Reset básico */
+  * {
+    margin: 0; padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+    color: #222;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Header fixo */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: rgba(255 255 255 / 0.9);
+    backdrop-filter: saturate(180%) blur(10px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 3rem;
+    z-index: 9999;
+  }
+  header .logo {
+    font-weight: 800;
+    font-size: 1.8rem;
+    color: #ff3c78;
+    cursor: pointer;
+    user-select: none;
+    letter-spacing: 0.1em;
+  }
+  header nav a {
+    text-decoration: none;
+    color: #555;
+    font-weight: 600;
+    margin-left: 2rem;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+  header nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 3px;
+    background: #ff3c78;
+    left: 0; bottom: -6px;
+    transition: width 0.3s ease;
+    border-radius: 3px;
+  }
+  header nav a:hover, header nav a.active {
+    color: #ff3c78;
+  }
+  header nav a:hover::after, header nav a.active::after {
+    width: 100%;
+  }
+
+  /* Espaço para o header fixo */
+  main {
+    margin-top: 80px;
+    flex: 1;
+  }
+
+  /* Hero Section */
+  .hero {
+    background: url('https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 5rem;
+    color: #fff;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.6);
+    animation: fadeInUp 1.5s ease forwards;
+  }
+  .hero h1 {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+  }
+  .hero p {
+    font-size: 1.5rem;
+    max-width: 600px;
+    margin-bottom: 2rem;
+    line-height: 1.4;
+  }
+  .hero button {
+    background: #ff3c78;
+    border: none;
+    color: white;
+    padding: 1rem 2.5rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(255,60,120,0.5);
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  .hero button:hover {
+    background: #ff1c58;
+    transform: scale(1.05);
+  }
+
+  /* Produtos Grid */
+  .produtos {
+    max-width: 1200px;
+    margin: 4rem auto 6rem auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(280px,1fr));
+    gap: 2rem;
+    padding: 0 2rem;
+  }
+  .produto-card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .produto-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(255,60,120,0.3);
+  }
+  .produto-card img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  .produto-card:hover img {
+    transform: scale(1.1);
+  }
+  .produto-info {
+    padding: 1.5rem 1.2rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .produto-info h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #ff3c78;
+  }
+  .produto-info p {
+    flex-grow: 1;
+    font-weight: 500;
+    font-size: 1rem;
+    color: #555;
+  }
+  .produto-info .preco {
+    font-weight: 800;
+    font-size: 1.3rem;
+    margin-top: 1rem;
+    color: #222;
+  }
+  .produto-info button {
+    margin-top: 1rem;
+    background: #ff3c78;
+    border: none;
+    color: white;
+    padding: 0.8rem;
+    border-radius: 50px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .produto-info button:hover {
+    background: #ff1c58;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    background: #fff;
+    color: #ff3c78;
+    font-weight: 600;
+    box-shadow: 0 -5px 15px rgba(255,60,120,0.15);
+  }
+
+  /* Animações */
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Responsivo */
+  @media(max-width: 768px) {
+    .hero {
+      padding-left: 2rem;
+      height: 60vh;
+      text-align: center;
+      justify-content: center;
+    }
+    .hero h1 {
+      font-size: 2.8rem;
+    }
+    .produtos {
+      padding: 0 1rem;
+      grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">FashionWave</div>
+  <nav>
+    <a href="#home" class="active">Início</a>
+    <a href="#produtos">Produtos</a>
+    <a href="#contato">Contato</a>
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero" id="home">
+    <h1>Vista seu estilo com <br />FashionWave</h1>
+    <p>Explore a nova coleção e encontre peças únicas para todas as ocasiões.</p>
+    <button onclick="document.getElementById('produtos').scrollIntoView({behavior:'smooth'})">Comprar Agora</button>
+  </section>
+
+  <section class="produtos" id="produtos" aria-label="Lista de produtos">
+    <article class="produto-card" tabindex="0">
+      <img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=600&q=80" alt="Vestido vermelho" />
+      <div class="produto-info">
+        <h3>Vestido Vermelho</h3>
+        <p>Vestido elegante para ocasiões especiais, confortável e com caimento perfeito.</p>
+        <div class="preco">R$ 149,90</div>
+        <button>Adicionar ao Carrinho</button>
+      </div>
+    </article>
+
+    <article class="produto-card" tabindex="0">
+      <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=600&q=80" alt="Jaqueta jeans" />
+      <div class="produto-info">
+        <h3>Jaqueta Jeans</h3>
+        <p>Jaqueta clássica e versátil, perfeita para compor looks casuais.</p>
+        <div class="preco">R$ 199,90</div>
+        <button>Adicionar ao Carrinho</button>
+      </div>
+    </article>
+
+    <article class="produto-card" tabindex="0">
+      <img src="https://images.unsplash.com/photo-1520962916917-27bc3b8e27ab?auto=format&fit=crop&w=600&q=80" alt="Camisa branca" />
+      <div class="produto-info">
+        <h3>Camisa Branca</h3>
+        <p>Camisa básica que nunca sai de moda, ideal para todas as estações.</p>
+        <div class="preco">R$ 89,90</div>
+        <button>Adicionar ao Carrinho</button>
+      </div>
+    </article>
+
+    <article class="produto-card" tabindex="0">
+      <img src="https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=600&q=80" alt="Calça preta" />
+      <div class="produto-info">
+        <h3>Calça Preta</h3>
+        <p>Calça skinny que valoriza a silhueta, confortável e estilosa.</p>
+        <div class="preco">R$ 129,90</div>
+        <button>Adicionar ao Carrinho</button>
+      </div>
+    </article>
+  </section>
+
+</main>
+
+<footer id="contato">
+  <p>FashionWave &copy; 2025 - Contato: contato@fashionwave.com.br</p>
+</footer>
+
+<script>
+  // Smooth scroll para links no header
+  document.querySelectorAll('header nav a').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelectorAll('header nav a').forEach(el => el.classList.remove('active'));
+      link.classList.add('active');
+      const targetID = link.getAttribute('href').slice(1);
+      const targetSection = document.getElementById(targetID);
+      if(targetSection) {
+        targetSection.scrollIntoView({behavior:'smooth'});
+      }
+    });
+  });
+
+  // Botões "Adicionar ao Carrinho" com animação visual
+  document.querySelectorAll('.produto-info button').forEach(button => {
+    button.addEventListener('click', e => {
+      button.textContent = 'Adicionado!';
+      button.style.backgroundColor = '#28a745';
+      setTimeout(() => {
+        button.textContent = 'Adicionar ao Carrinho';
+        button.style.backgroundColor = '#ff3c78';
+      }, 1500);
+    });
+  });
+</script>
+
+</body>
+</html>
